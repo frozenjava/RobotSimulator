@@ -6,7 +6,6 @@
 # Just a basic robot object
 #
 
-import os
 import pygame
 
 
@@ -17,6 +16,9 @@ class Robot(pygame.sprite.Sprite):
 
     sprite_list = None
     game_display = None
+    message_area = None
+
+    sent_messages = []
 
     image = None
     rect = None
@@ -42,13 +44,14 @@ class Robot(pygame.sprite.Sprite):
         if boundaries is not None:
             self.BOUNDARIES = boundaries
 
-    def configure(self, sprites, display):
+    def configure(self, sprites, display, messages):
         """
         Configure the robot
         :return: None
         """
         self.sprite_list = sprites
         self.game_display = display
+        self.message_area = messages
 
     def move_down(self, units):
         """
@@ -94,6 +97,23 @@ class Robot(pygame.sprite.Sprite):
             units -= 1
             self.preform_update()
 
+    def send_message(self, msg):
+        """
+        Send a message to the screen
+        :param msg: The message to put on the screen
+        :return: None
+        """
+        self.sent_messages.append(msg)
+        self.preform_update()
+
+    def clear_messages(self):
+        """
+        Clear all messages from the screen
+        :return:
+        """
+        self.sent_messages = []
+        self.preform_update()
+
     def preform_update(self):
         """
         Updates the display
@@ -101,4 +121,7 @@ class Robot(pygame.sprite.Sprite):
         """
         self.game_display.fill((255, 255, 255))
         self.sprite_list.draw(self.game_display)
+        for i in range(0, len(self.sent_messages)):
+            screen_text = self.message_area.render(self.sent_messages[i], True, (0, 0, 255))
+            self.game_display.blit(screen_text, [0, 15*i])
         pygame.display.update()

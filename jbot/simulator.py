@@ -12,6 +12,11 @@ def get_robot():
     return jBot
 
 
+def send_simulator_message(msg, msg_area, display, location):
+    screen_text = msg_area.render(msg, True, (255, 0, 0))
+    display.blit(screen_text, location)
+
+
 def simulate(fun, *args):
 
     global jBot
@@ -22,9 +27,6 @@ def simulate(fun, *args):
     width = 800
     height = 600
 
-    pygame.init()  # Create a surface object
-    simulator_display = pygame.display.set_mode((width, height))
-
     colors = {"white": (255, 255, 255),
               "black": (0, 0, 0),
               "red": (255, 0, 0),
@@ -32,12 +34,22 @@ def simulate(fun, *args):
               "blue": (0, 0, 255),
               "pink": (255, 200, 200)}
 
+    pygame.init()  # Create a surface object
+    simulator_display = pygame.display.set_mode((width, height))
+
+    # Set the title of the window
+    pygame.display.set_caption("jBot Simulator")
+
+    # Texts
+    robo_messages = pygame.font.SysFont(None, 25)
+    sim_messages = pygame.font.SysFont(None, 25)
+
     # A list of all sprites
     all_sprites_list = pygame.sprite.Group()
     wall_sprites = pygame.sprite.Group()
 
     # The robot
-    jBot = Robot(image=images_path + "jbot.png", start_x=width / 2, start_y=height / 2)
+    jBot = Robot(image=images_path + "jbot.png", start_x=0, start_y=height-80)
     all_sprites_list.add(jBot)
 
     # The walls around the game
@@ -54,20 +66,19 @@ def simulate(fun, *args):
     all_sprites_list.add(right_wall)
     all_sprites_list.add(bottom_wall)
 
-    # Set the title of the window
-    pygame.display.set_caption("jBot Simulator")
-
     # Create a pygame clock object
     clock = pygame.time.Clock()
 
     # Set the initial environment
     simulator_display.fill(colors.get("white"))
+    jBot.configure(all_sprites_list, simulator_display, robo_messages)
     all_sprites_list.draw(simulator_display)
+
+    send_simulator_message("Press any key to start simulation", sim_messages, simulator_display,
+                           [(width/2), height/2])
     pygame.display.update()
 
     simulator_exit = False
-
-    jBot.configure(all_sprites_list, simulator_display)
 
     while not simulator_exit:
 
@@ -78,15 +89,29 @@ def simulate(fun, *args):
             # Quit event
             if event.type == pygame.QUIT:
                 simulator_exit = True
-
-        fun(*args)
-        simulator_exit = True
+            elif event.type == pygame.KEYDOWN:
+                simulator_display.fill(colors.get("white"))
+                pygame.display.update()
+                fun(*args)
+                simulator_exit = True
 
         clock.tick(20)
 
-    while raw_input("Press enter to continue"):
-        pass
+    exit_simulator = False
+    while not exit_simulator:
 
+        send_simulator_message("Press q to quit simulation", sim_messages, simulator_display,
+                               [(width/2)-len("Press q to quit simulation"), (height/2)])
+        pygame.display.update()
+
+        # Handle each event
+        for event in pygame.event.get():
+                # Quit event
+                if event.type == pygame.QUIT:
+                    exit_simulator = True
+                elif event.type == pygame.KEYDOWN:
+                    if event.key == pygame.K_q:
+                        exit_simulator = True
 
     pygame.quit()
     sys.exit()
