@@ -3,10 +3,15 @@ This is a "robot simulator" for educational use.
 
 I am a testing a hypothesis that students will learn programming concepts better if they see an object moving around on the screen, in this case a little robot looking guy.
 
+Check out this video demonstration of the module
+
+[![Click Here](http://i.imgur.com/S2lMpEU.png)](https://www.youtube.com/watch?v=laHVwjuu-24)
+
 # Setup Instructions
 ### Windows & Linux
 ```
 pip install pygame
+python jbot/setup.py install
 ```
 
 ### Mac
@@ -15,6 +20,7 @@ ruby -e "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/master/
 brew update
 brew install sdl sdl_image sdl_mixer sdl_ttf smpeg portmidi 
 pip install hg+http://bitbucket.org/pygame/pygame
+python jbot/setup.py install
 ```
 
 ## Getting Started
