@@ -18,9 +18,12 @@ python jbot/setup.py install
 ```
 ruby -e "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/master/install)"
 brew update
-brew install sdl sdl_image sdl_mixer sdl_ttf smpeg portmidi 
+brew install sdl sdl_image sdl_mixer sdl_ttf smpeg portmidi mercurial
+brew install Caskroom/cask/xquartz
+---- REBOOT YOUR MACHINE BEFORE CONTINUING ----
 pip install hg+http://bitbucket.org/pygame/pygame
-python jbot/setup.py install
+git clone https://github.com/frozenjava/RobotSimulator.git
+python RobotSimulator/setup.py install
 ```
 
 ## Getting Started
