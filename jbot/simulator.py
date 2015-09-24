@@ -1,6 +1,7 @@
 import pygame
 import sys
 import os
+from threading import Thread
 
 from jbot.robot import Robot
 from jbot.wall import Wall
@@ -92,7 +93,9 @@ def simulate(fun, *args):
             elif event.type == pygame.KEYDOWN:
                 simulator_display.fill(colors.get("white"))
                 pygame.display.update()
-                fun(*args)
+                t = Thread(target=fun, args=args)
+                t.start()
+                t.join()
                 simulator_exit = True
 
         clock.tick(20)
