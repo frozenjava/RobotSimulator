@@ -97,8 +97,9 @@ def simulate(fun, *args):
                 t = Thread(target=fun, args=args)
                 t.start()
 
-        if not t.isAlive():
-            simulator_exit = True
+        if t is not None:
+            if not t.isAlive():
+                simulator_exit = True
 
         clock.tick(20)
 

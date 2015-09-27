@@ -7,7 +7,7 @@
 from distutils.core import setup
 
 setup(name='jBot',
-      version='1.3',
+      version='1.4',
       description='Educational robot simulator',
       author='Josh Artus',
       url='https://github.com/frozenjava/RobotSimulator',
