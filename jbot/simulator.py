@@ -80,6 +80,7 @@ def simulate(fun, *args):
     pygame.display.update()
 
     simulator_exit = False
+    t = None
 
     while not simulator_exit:
 
@@ -95,7 +96,9 @@ def simulate(fun, *args):
                 pygame.display.update()
                 t = Thread(target=fun, args=args)
                 t.start()
-                simulator_exit = True
+
+        if not t.isAlive():
+            simulator_exit = True
 
         clock.tick(20)
 
