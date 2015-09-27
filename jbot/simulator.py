@@ -95,7 +95,6 @@ def simulate(fun, *args):
                 pygame.display.update()
                 t = Thread(target=fun, args=args)
                 t.start()
-                t.join()
                 simulator_exit = True
 
         clock.tick(20)
