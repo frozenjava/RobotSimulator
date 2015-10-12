@@ -72,7 +72,7 @@ my_robot = simulator.get_robot()
 
 This will return an instance of Robot.
 
-Robot has the following messages:
+Robot has the following methods:
 
 ```
     move_up(units)
